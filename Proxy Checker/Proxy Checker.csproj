@@ -7,4 +7,8 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="PulseButton" Version="1.0.3" />
+  </ItemGroup>
+
 </Project>

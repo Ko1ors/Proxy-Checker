@@ -60,6 +60,10 @@
                       Focusable="False"  
                       ButtonBrush="LightGreen"
                       ButtonHighlightBrush="#a3ddcb"/>
+                    
+                    <Button Margin="0,35,0,0" Width="150" Height="20" Content="Select proxy file location" FontFamily="Arial" BorderBrush="#FFA3DDCB" Foreground="#FFFFE3DE" Background="{x:Null}"/>
+                    <Button Visibility="Collapsed" Margin="0,35,0,0" Width="150" Height="20" Content="Save results" FontFamily="Arial" BorderBrush="#FFA3DDCB" Foreground="#FFFFE3DE" Background="{x:Null}"/>
+
                 </StackPanel>
             </Border>
         </Grid>

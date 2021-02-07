@@ -42,14 +42,14 @@
                 <RowDefinition Height="326*"/>
                 <shell:RowDefinition Height="83*"/>
             </Grid.RowDefinitions>
-            <DockPanel Height="25" Background="#1a508b">
-                <TextBlock Text="PROXY CHECKER" Foreground="White" Margin="5" FontFamily="Arial" FontSize="15" FontWeight="Bold"/>
+            <DockPanel Height="25" Background="#03506f">
+                <TextBlock Text="PROXY CHECKER" Foreground="#ffe3de" Margin="5" FontFamily="Arial" FontSize="15" FontWeight="Bold"/>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" >
-                    <Button Content="🗕" VerticalContentAlignment="Top" Width="25" Height="25" Click="MinimizeButton_Click" Background="{x:Null}"  WindowChrome.IsHitTestVisibleInChrome="True" Foreground="White" BorderBrush="{x:Null}" />
-                    <Button Content="✕" Width="25" Height="25" Click="ExitButton_Click" Background="{x:Null}"  WindowChrome.IsHitTestVisibleInChrome="True" Foreground="White" BorderBrush="{x:Null}" />
+                    <Button Content="🗕" VerticalContentAlignment="Top" Width="25" Height="25" Click="MinimizeButton_Click" Background="{x:Null}"  WindowChrome.IsHitTestVisibleInChrome="True" Foreground="#ffe3de" BorderBrush="{x:Null}" FontWeight="Bold" />
+                    <Button Content="✕" Width="25" Height="25" Click="ExitButton_Click" Background="{x:Null}"  WindowChrome.IsHitTestVisibleInChrome="True" Foreground="#ffe3de" BorderBrush="{x:Null}" FontWeight="Bold" />
                 </StackPanel>
             </DockPanel>
-            <Border Grid.Row="1" BorderThickness="2,0,2,2" BorderBrush="#1a508b" Background="#f8f1f1" shell:Grid.RowSpan="2">
+            <Border Grid.Row="1" BorderThickness="2,0,2,2" BorderBrush="#03506f" Background="#0a043c" shell:Grid.RowSpan="2">
             </Border>
         </Grid>
     </Border>

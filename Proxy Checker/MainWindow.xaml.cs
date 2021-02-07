@@ -23,6 +23,9 @@ namespace Proxy_Checker
         public MainWindow()
         {
             InitializeComponent();
+            itemsControl.Items.Add("Test 1");
+            itemsControl.Items.Add("Test 2");
+            itemsControl.Items.Add("Test 3");
         }
 
         private void ExitButton_Click(object sender, RoutedEventArgs e)

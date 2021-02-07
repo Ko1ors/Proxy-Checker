@@ -64,6 +64,25 @@
                     <Button Margin="0,35,0,0" Width="150" Height="20" Content="Select proxy file location" FontFamily="Arial" BorderBrush="#FFA3DDCB" Foreground="#FFFFE3DE" Background="{x:Null}"/>
                     <Button Visibility="Collapsed" Margin="0,35,0,0" Width="150" Height="20" Content="Save results" FontFamily="Arial" BorderBrush="#FFA3DDCB" Foreground="#FFFFE3DE" Background="{x:Null}"/>
 
+                    <ItemsControl x:Name="itemsControl" Margin="0,15,0,0" Background="{x:Null}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" HorizontalContentAlignment="Stretch" BorderThickness="0" Height="140">
+
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border Height="25" BorderThickness="1" BorderBrush="#FFA3DDCB"  CornerRadius="3" Margin="10,0,10,10">
+                                <TextBlock  FontFamily="Arial" FontWeight="Bold" Text="{Binding}" Foreground="#ffe3de" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <!--<TextBlock.TextDecorations>
+                                        <TextDecoration Location="Underline">
+                                            <TextDecoration.Pen>
+                                                <Pen Brush="#FFA3DDCB"/>
+                                            </TextDecoration.Pen>
+                                        </TextDecoration>
+                                    </TextBlock.TextDecorations>-->
+                                </TextBlock>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+
+                    </ItemsControl>
                 </StackPanel>
             </Border>
         </Grid>

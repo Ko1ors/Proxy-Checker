@@ -40,7 +40,6 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="25"/>
                 <RowDefinition Height="326*"/>
-                <shell:RowDefinition Height="83*"/>
             </Grid.RowDefinitions>
             <DockPanel Height="25" Background="#03506f">
                 <TextBlock Text="PROXY CHECKER" Foreground="#ffe3de" Margin="5" FontFamily="Arial" FontSize="15" FontWeight="Bold"/>

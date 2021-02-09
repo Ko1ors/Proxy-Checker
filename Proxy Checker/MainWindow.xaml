@@ -64,6 +64,7 @@
                       Foreground="#0a043c"
                       FontFamily="Arial"
                       FontWeight="Bold"
+                      FontSize="{Binding Path=PulseButton.FontSize, ElementName=mainWindow, FallbackValue= 14}"
                       ButtonHighlightBrush="#a3ddcb"
                       ButtonPressedBrush="#03506f"
                       Click="PulseButton_Click"/>

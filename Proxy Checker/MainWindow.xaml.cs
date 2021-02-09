@@ -28,19 +28,6 @@ namespace Proxy_Checker
         {
             InitializeComponent();
 
-            PulseButton = new PulseButton
-            {
-                Color = "LightGreen",
-
-                Scale = 2,
-
-                Count = 6,
-
-                Width = 3,
-
-                Content = "Start"
-            };
-
             itemsControl.Items.Add("Test 1");
             itemsControl.Items.Add("Test 2");
             itemsControl.Items.Add("Test 3");
@@ -73,18 +60,7 @@ namespace Proxy_Checker
             switch (pulseButtonColor)
             {
                 case PulseButtonColor.Green:
-                    PulseButton = new PulseButton
-                    {
-                        Color = "LightGreen",
-
-                        Scale = 2,
-
-                        Count = 6,
-
-                        Width = 3,
-
-                        Content = "Start"
-                    };
+                    PulseButton = null;
                     break;
                 case PulseButtonColor.Red:
                     PulseButton = new PulseButton
@@ -97,7 +73,9 @@ namespace Proxy_Checker
 
                         Width = 2,
 
-                        Content = "Working"
+                        Content = "Working",
+
+                        FontSize = 10
                     };
                     break;
             }

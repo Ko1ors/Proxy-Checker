@@ -15,5 +15,7 @@ namespace Proxy_Checker
         public string Color { get; set; }
 
         public string Content { get; set; }
+
+        public int FontSize { get; set; }
     }
 }

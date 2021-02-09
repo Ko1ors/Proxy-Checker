@@ -13,7 +13,14 @@ namespace Proxy_Checker
             Red
         }
 
-        public PulseButton PulseButton { get; set; }
+        public static readonly DependencyProperty PulseButtonProperty = DependencyProperty.Register("PulseButton", typeof(PulseButton), typeof(MainWindow));
+
+
+        public PulseButton PulseButton
+        {
+            get { return (PulseButton)GetValue(PulseButtonProperty); }
+            set { SetValue(PulseButtonProperty, value); }
+        }
 
         private PulseButtonColor pulseButtonColor { get; set; }
 
@@ -33,8 +40,6 @@ namespace Proxy_Checker
 
                 Content = "Start"
             };
-
-            DataContext = PulseButton;
 
             itemsControl.Items.Add("Test 1");
             itemsControl.Items.Add("Test 2");

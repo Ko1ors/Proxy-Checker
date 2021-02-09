@@ -6,6 +6,7 @@
         xmlns:shell="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:local="clr-namespace:Proxy_Checker" xmlns:controls="clr-namespace:NMT.Wpf.Controls;assembly=PulseButton"
         mc:Ignorable="d"
+        x:Name="mainWindow"
         Title="MainWindow" Height="350" Width="250" ResizeMode="CanMinimize">
     <shell:WindowChrome.WindowChrome>
         <shell:WindowChrome 
@@ -51,15 +52,15 @@
             <Border Grid.Row="1" BorderThickness="2,0,2,2" BorderBrush="#03506f" Background="#0a043c" shell:Grid.RowSpan="2">
                 <StackPanel >
                     <controls:PulseButton Margin="0,40,0,0" Height="50" Width="50" IsEllipsis="True"   
-                      PulseScale="{Binding Path=Scale, FallbackValue= 2}"
-                      PulseWidth="{Binding Path=Width, FallbackValue= 3}"
+                      PulseScale="{Binding Path=PulseButton.Scale, ElementName=mainWindow,  FallbackValue= 2}"
+                      PulseWidth="{Binding Path=PulseButton.Width, ElementName=mainWindow, FallbackValue= 3}"
                       PulseSpeed="0:0:5"
-                      PulseColor="{Binding Path=Color, FallbackValue= LightGreen}"
-                      Pulses="{Binding Path=Count, FallbackValue= 6}"
+                      PulseColor="{Binding Path=PulseButton.Color, ElementName=mainWindow, FallbackValue= LightGreen}"
+                      Pulses="{Binding Path=PulseButton.Count, ElementName=mainWindow, FallbackValue= 6}"
                       IsReflective="True"
                       Focusable="False"  
-                      ButtonBrush="{Binding Path=Color, FallbackValue= LightGreen}"
-                      Content="{Binding Path=Content, FallbackValue= Start}"
+                      ButtonBrush="{Binding Path=PulseButton.Color, ElementName=mainWindow, FallbackValue= LightGreen}"
+                      Content="{Binding Path=PulseButton.Content, ElementName=mainWindow, FallbackValue= Start}"
                       Foreground="#0a043c"
                       FontFamily="Arial"
                       FontWeight="Bold"

@@ -59,7 +59,12 @@
                       IsReflective="True"
                       Focusable="False"  
                       ButtonBrush="LightGreen"
-                      ButtonHighlightBrush="#a3ddcb"/>
+                      Content="Start"
+                      Foreground="#0a043c"
+                      FontFamily="Arial"
+                      FontWeight="Bold"
+                      ButtonHighlightBrush="#a3ddcb"
+                      ButtonPressedBrush="#03506f"/>
                     
                     <Button Margin="0,35,0,0" Width="150" Height="20" Content="Select proxy file location" FontFamily="Arial" BorderBrush="#FFA3DDCB" Foreground="#FFFFE3DE" Background="{x:Null}"/>
                     <Button Visibility="Collapsed" Margin="0,35,0,0" Width="150" Height="20" Content="Save results" FontFamily="Arial" BorderBrush="#FFA3DDCB" Foreground="#FFFFE3DE" Background="{x:Null}"/>

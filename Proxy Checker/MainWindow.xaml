@@ -64,7 +64,8 @@
                       FontFamily="Arial"
                       FontWeight="Bold"
                       ButtonHighlightBrush="#a3ddcb"
-                      ButtonPressedBrush="#03506f"/>
+                      ButtonPressedBrush="#03506f"
+                      Click="PulseButton_Click"/>
                     
                     <Button Margin="0,35,0,0" Width="150" Height="20" Content="Select proxy file location" FontFamily="Arial" BorderBrush="#FFA3DDCB" Foreground="#FFFFE3DE" Background="{x:Null}"/>
                     <Button Visibility="Collapsed" Margin="0,35,0,0" Width="150" Height="20" Content="Save results" FontFamily="Arial" BorderBrush="#FFA3DDCB" Foreground="#FFFFE3DE" Background="{x:Null}"/>

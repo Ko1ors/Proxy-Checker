@@ -13,11 +13,29 @@ namespace Proxy_Checker
             Red
         }
 
-        private PulseButtonColor pulseButtonColor;
+        public PulseButton PulseButton { get; set; }
+
+        private PulseButtonColor pulseButtonColor { get; set; }
 
         public MainWindow()
         {
             InitializeComponent();
+
+            PulseButton = new PulseButton
+            {
+                Color = "LightGreen",
+
+                Scale = 2,
+
+                Count = 6,
+
+                Width = 3,
+
+                Content = "Start"
+            };
+
+            DataContext = PulseButton;
+
             itemsControl.Items.Add("Test 1");
             itemsControl.Items.Add("Test 2");
             itemsControl.Items.Add("Test 3");
@@ -41,16 +59,41 @@ namespace Proxy_Checker
                 ChangePulseButton(PulseButtonColor.Red);
             else
                 ChangePulseButton(PulseButtonColor.Green);
+            (sender as NMT.Wpf.Controls.PulseButton).GetBindingExpression(ContentProperty).UpdateTarget();
         }
 
         private void ChangePulseButton(PulseButtonColor pbc)
         {
+            pulseButtonColor = pbc;
             switch (pulseButtonColor)
             {
                 case PulseButtonColor.Green:
+                    PulseButton = new PulseButton
+                    {
+                        Color = "LightGreen",
 
+                        Scale = 2,
+
+                        Count = 6,
+
+                        Width = 3,
+
+                        Content = "Start"
+                    };
                     break;
                 case PulseButtonColor.Red:
+                    PulseButton = new PulseButton
+                    {
+                        Color = "Red",
+
+                        Scale = 1.5M,
+
+                        Count = 4,
+
+                        Width = 2,
+
+                        Content = "Working"
+                    };
                     break;
             }
         }

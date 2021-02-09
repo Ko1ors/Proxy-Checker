@@ -49,17 +49,17 @@
                 </StackPanel>
             </DockPanel>
             <Border Grid.Row="1" BorderThickness="2,0,2,2" BorderBrush="#03506f" Background="#0a043c" shell:Grid.RowSpan="2">
-                <StackPanel>
+                <StackPanel >
                     <controls:PulseButton Margin="0,40,0,0" Height="50" Width="50" IsEllipsis="True"   
-                      PulseScale="2"
-                      PulseWidth="3"
+                      PulseScale="{Binding Path=Scale, FallbackValue= 2}"
+                      PulseWidth="{Binding Path=Width, FallbackValue= 3}"
                       PulseSpeed="0:0:5"
-                      PulseColor="LightGreen"
-                      Pulses="5"
+                      PulseColor="{Binding Path=Color, FallbackValue= LightGreen}"
+                      Pulses="{Binding Path=Count, FallbackValue= 6}"
                       IsReflective="True"
                       Focusable="False"  
-                      ButtonBrush="LightGreen"
-                      Content="Start"
+                      ButtonBrush="{Binding Path=Color, FallbackValue= LightGreen}"
+                      Content="{Binding Path=Content, FallbackValue= Start}"
                       Foreground="#0a043c"
                       FontFamily="Arial"
                       FontWeight="Bold"

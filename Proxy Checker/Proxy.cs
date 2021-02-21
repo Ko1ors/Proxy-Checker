@@ -13,19 +13,22 @@ namespace Proxy_Checker
         public List<string> List = new List<string>();
         private int current = 0;
         public bool IsChecking { get; private set; }
+        public bool IsProxyFileSetted { get; private set; }
 
         private int GoodProxiesCount = 0;
         public int CurrentProxy = 0;
 
         public bool SetProxyFilePath(string path)
         {
-            if (!File.Exists(path))
-                return false;
-            Path = path;
-            List = GetProxyList();
-            if (List.Count == 0)
-                return false;
-            return true;
+            IsProxyFileSetted = false;
+            if (File.Exists(path))
+            {
+                Path = path;
+                List = GetProxyList();
+                if (List.Count > 0)
+                    IsProxyFileSetted = true;
+            }
+            return IsProxyFileSetted;
         }
 
         public void CheckProxies()

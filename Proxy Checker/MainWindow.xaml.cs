@@ -71,7 +71,15 @@ namespace Proxy_Checker
         private void PulseButton_Click(object sender, RoutedEventArgs e)
         {
             if (pulseButtonColor == PulseButtonColor.Green)
-                ChangePulseButton(PulseButtonColor.Red);
+            {
+                if (Proxy.IsProxyFileSetted)
+                {
+                    Proxy.CheckProxies();
+                    ChangePulseButton(PulseButtonColor.Red);
+                }
+                else
+                    AddMessage("Proxy file not setted");
+            }
             else
                 ChangePulseButton(PulseButtonColor.Green);
             (sender as NMT.Wpf.Controls.PulseButton).GetBindingExpression(ContentProperty).UpdateTarget();

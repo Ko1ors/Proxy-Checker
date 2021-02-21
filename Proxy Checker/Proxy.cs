@@ -9,7 +9,7 @@ namespace Proxy_Checker
 {
     public class Proxy
     {
-        public static string Path = AppDomain.CurrentDomain.BaseDirectory + "proxy.txt";
+        public string Path;
         public List<string> List = new List<string>();
         public string LastBackupPath = "";
         public bool IsBackup = true;
@@ -18,10 +18,12 @@ namespace Proxy_Checker
         private int GoodProxiesCount = 0;
         public int CurrentProxyIndex = 0;
 
-        public Proxy()
+        public Proxy(string path)
         {
             List = GetProxyList();
+            Path = path;
         }
+
         public void CheckProxies()
         {
             if (!IsChecking)
@@ -30,7 +32,7 @@ namespace Proxy_Checker
                 IsChecking = true;
                 GoodProxiesCount = 0;
                 CurrentProxyIndex = 0;
-                Parallel.ForEach(File.ReadAllLines(Proxy.Path).ToList(), new ParallelOptions() { MaxDegreeOfParallelism = Environment.ProcessorCount * 10 }, (proxy) =>
+                Parallel.ForEach(File.ReadAllLines(Path).ToList(), new ParallelOptions() { MaxDegreeOfParallelism = Environment.ProcessorCount * 10 }, (proxy) =>
                 {
                     HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create("http://google.com");
                     request.Timeout = 10000;
@@ -60,24 +62,26 @@ namespace Proxy_Checker
         }
         public int GetProxyCount()
         {
-            return File.ReadLines(Proxy.Path).Count();
+            return File.ReadLines(Path).Count();
         }
 
-        public static List<string> GetProxyList()
+        public List<string> GetProxyList()
         {
-            return File.ReadAllLines(Proxy.Path).ToList();
+            return File.ReadAllLines(Path).ToList();
         }
+
         public void SaveProxies()
         {
             LastBackupPath = GetBackupPath();
             File.WriteAllLines(LastBackupPath, File.ReadLines(Path));
             File.WriteAllLines(Path, List);
         }
+
         public void SaveGoodProxy()
         {
             File.WriteAllLines(AppDomain.CurrentDomain.BaseDirectory + "goodproxy.txt", List);
         }
-        public static string GetBackupPath()
+        public string GetBackupPath()
         {
             return AppDomain.CurrentDomain.BaseDirectory + "proxy" + DateTime.Today + ".txt";
         }

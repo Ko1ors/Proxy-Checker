@@ -3,20 +3,26 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Proxy_Checker
 {
     public class Proxy
     {
-        public string Path;
-        public List<string> List = new List<string>();
+        private string Path;
+        private List<string> List = new List<string>();
         private int current = 0;
         public bool IsChecking { get; private set; }
         public bool IsProxyFileSetted { get; private set; }
 
         private int GoodProxiesCount = 0;
-        public int CurrentProxy = 0;
+        private int CurrentProxy = 0;
+
+        private int SecondsBetweenMsg = 3;
+
+        public delegate void OnProxyCheckUpdate(string msg);
+        public event OnProxyCheckUpdate Notify;
 
         public bool SetProxyFilePath(string path)
         {
@@ -31,7 +37,18 @@ namespace Proxy_Checker
             return IsProxyFileSetted;
         }
 
-        public void CheckProxies()
+        public bool Start()
+        {
+            if(!IsChecking && IsProxyFileSetted)
+            {
+                var thread = new Thread(new ThreadStart(CheckProxies));
+                thread.Start();
+                return true;
+            }
+            return false;
+        }
+
+        private void CheckProxies()
         {
             if (!IsChecking)
             {
@@ -39,6 +56,8 @@ namespace Proxy_Checker
                 IsChecking = true;
                 GoodProxiesCount = 0;
                 CurrentProxy = 0;
+                SendMessage();
+                var msgTime = DateTime.Now;
                 Parallel.ForEach(File.ReadAllLines(Path).ToList(), new ParallelOptions() { MaxDegreeOfParallelism = Environment.ProcessorCount * 10 }, (proxy) =>
                 {
                     HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create("http://google.com");
@@ -51,6 +70,11 @@ namespace Proxy_Checker
                         HttpWebResponse response = (HttpWebResponse)request.GetResponse();
                         GoodProxiesCount++;
                         List.Add(proxy);
+                        if (msgTime.AddSeconds(SecondsBetweenMsg) < DateTime.Now)
+                        {
+                            SendMessage();
+                            msgTime = DateTime.Now;
+                        }
                     }
                     catch (Exception)
                     {
@@ -59,6 +83,11 @@ namespace Proxy_Checker
                 });
                 IsChecking = false;
             }
+        }
+
+        private void SendMessage()
+        {
+            Notify?.Invoke(ToString());
         }
 
         public int GetNextProxyIndex()
@@ -84,7 +113,7 @@ namespace Proxy_Checker
 
         public override string ToString()
         {
-            return "Size: " + GetProxyCount() + "\nTotal handled: " + CurrentProxy + "\nGood: " + GoodProxiesCount + "\nBad: " + (CurrentProxy - GoodProxiesCount) + "\n";
+            return "Size: " + GetProxyCount() + " Total handled: " + CurrentProxy + " Good: " + GoodProxiesCount + " Bad: " + (CurrentProxy - GoodProxiesCount);
         }
     }
 }

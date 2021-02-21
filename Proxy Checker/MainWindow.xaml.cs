@@ -50,12 +50,21 @@ namespace Proxy_Checker
             AddMessage("Test 5");
 
             Proxy = new Proxy();
+            Proxy.Notify += Proxy_Notify;
             if (Proxy.SetProxyFilePath(AppDomain.CurrentDomain.BaseDirectory + "proxy.txt"))
                 AddMessage("Proxy file found successfully");
             else
                 AddMessage("Proxy file not found");
 
             pulseButtonColor = PulseButtonColor.Green;
+        }
+
+        private void Proxy_Notify(string msg)
+        {
+            Dispatcher.Invoke(() =>
+            {
+                AddMessage(msg);
+            });
         }
 
         private void ExitButton_Click(object sender, RoutedEventArgs e)
@@ -74,8 +83,13 @@ namespace Proxy_Checker
             {
                 if (Proxy.IsProxyFileSetted)
                 {
-                    Proxy.CheckProxies();
-                    ChangePulseButton(PulseButtonColor.Red);
+                    if (Proxy.Start())
+                    {
+                        ChangePulseButton(PulseButtonColor.Red);
+                        AddMessage("Proxy checker started");
+                    }
+                    else
+                        AddMessage("Error occurred while starting proxy checker");
                 }
                 else
                     AddMessage("Proxy file not setted");

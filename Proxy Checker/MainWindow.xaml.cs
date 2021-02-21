@@ -117,6 +117,7 @@ namespace Proxy_Checker
             MessageList.AddFirst(msg);
             if (MessageList.Count > MessageLimit)
                 MessageList.RemoveLast();
+            itemsControl.Items.Refresh();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

@@ -31,25 +31,31 @@ namespace Proxy_Checker
             set { SetValue(MessageListProperty, value); }
         }
 
+        public Proxy Proxy { get; set; }
+
         private PulseButtonColor pulseButtonColor { get; set; }
 
-        public string ProxyFilePath { get; set; }
-
-        private int MessageLimit { get; set; } = 3;
+        private int MessageLimit { get; set; }
 
         public MainWindow()
         {
             InitializeComponent();
 
             MessageList = new LinkedList<string>();
+            MessageLimit = 3;
             AddMessage("Test 1");
             AddMessage("Test 2");
             AddMessage("Test 3");
             AddMessage("Test 4");
             AddMessage("Test 5");
 
+            Proxy = new Proxy();
+            if (Proxy.SetProxyFilePath(AppDomain.CurrentDomain.BaseDirectory + "proxy.txt"))
+                AddMessage("Proxy file found successfully");
+            else
+                AddMessage("Proxy file not found");
+
             pulseButtonColor = PulseButtonColor.Green;
-            ProxyFilePath = AppDomain.CurrentDomain.BaseDirectory + "proxy.txt";
         }
 
         private void ExitButton_Click(object sender, RoutedEventArgs e)
@@ -110,9 +116,8 @@ namespace Proxy_Checker
             var openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "Text|*.txt|All|*.*";
             if (openFileDialog.ShowDialog() == true)
-            {
-                ProxyFilePath = openFileDialog.FileName;
-            }  
+                if (Proxy.SetProxyFilePath(openFileDialog.FileName))
+                    AddMessage("Proxy file setted successfully");
         }
     }
 }

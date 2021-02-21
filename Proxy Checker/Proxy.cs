@@ -11,17 +11,21 @@ namespace Proxy_Checker
     {
         public string Path;
         public List<string> List = new List<string>();
-        public string LastBackupPath = "";
-        public bool IsBackup = true;
         private int current = 0;
         public bool IsChecking { get; private set; }
-        private int GoodProxiesCount = 0;
-        public int CurrentProxyIndex = 0;
 
-        public Proxy(string path)
+        private int GoodProxiesCount = 0;
+        public int CurrentProxy = 0;
+
+        public bool SetProxyFilePath(string path)
         {
-            List = GetProxyList();
+            if (!File.Exists(path))
+                return false;
             Path = path;
+            List = GetProxyList();
+            if (List.Count == 0)
+                return false;
+            return true;
         }
 
         public void CheckProxies()
@@ -31,7 +35,7 @@ namespace Proxy_Checker
                 List.Clear();
                 IsChecking = true;
                 GoodProxiesCount = 0;
-                CurrentProxyIndex = 0;
+                CurrentProxy = 0;
                 Parallel.ForEach(File.ReadAllLines(Path).ToList(), new ParallelOptions() { MaxDegreeOfParallelism = Environment.ProcessorCount * 10 }, (proxy) =>
                 {
                     HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create("http://google.com");
@@ -40,11 +44,10 @@ namespace Proxy_Checker
                     try
                     {
                         request.Proxy = new WebProxy(p[0], Convert.ToInt32(p[1]));
-                        CurrentProxyIndex++;
+                        CurrentProxy++;
                         HttpWebResponse response = (HttpWebResponse)request.GetResponse();
                         GoodProxiesCount++;
                         List.Add(proxy);
-                        SaveGoodProxy();
                     }
                     catch (Exception)
                     {
@@ -60,6 +63,7 @@ namespace Proxy_Checker
             if (current == GetProxyCount()) current = 0;
             return current++;
         }
+
         public int GetProxyCount()
         {
             return File.ReadLines(Path).Count();
@@ -70,25 +74,14 @@ namespace Proxy_Checker
             return File.ReadAllLines(Path).ToList();
         }
 
-        public void SaveProxies()
+        public void SaveProxy(string path)
         {
-            LastBackupPath = GetBackupPath();
-            File.WriteAllLines(LastBackupPath, File.ReadLines(Path));
-            File.WriteAllLines(Path, List);
-        }
-
-        public void SaveGoodProxy()
-        {
-            File.WriteAllLines(AppDomain.CurrentDomain.BaseDirectory + "goodproxy.txt", List);
-        }
-        public string GetBackupPath()
-        {
-            return AppDomain.CurrentDomain.BaseDirectory + "proxy" + DateTime.Today + ".txt";
+            File.WriteAllLines(path, List);
         }
 
         public override string ToString()
         {
-            return "Size: " + GetProxyCount() + "\nTotal handled: " + CurrentProxyIndex + "\nGood: " + GoodProxiesCount + "\nBad: " + (CurrentProxyIndex - GoodProxiesCount) + "\n";
+            return "Size: " + GetProxyCount() + "\nTotal handled: " + CurrentProxy + "\nGood: " + GoodProxiesCount + "\nBad: " + (CurrentProxy - GoodProxiesCount) + "\n";
         }
     }
 }

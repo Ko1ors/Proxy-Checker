@@ -10,19 +10,31 @@ namespace Proxy_Checker
 {
     public class Proxy
     {
-        private string Path;
-        private List<string> List = new List<string>();
-        private int current = 0;
+        private string Path { get; set; }
+        public List<string> List { get; private set; }
         public bool IsChecking { get; private set; }
         public bool IsProxyFileSetted { get; private set; }
-
-        private int GoodProxiesCount = 0;
-        private int CurrentProxy = 0;
+        public int GoodProxiesCount { get; private set; }
+        public int CurrentProxy { get; private set; }
 
         private int SecondsBetweenMsg = 3;
+        private int current = 0;
 
         public delegate void OnProxyCheckUpdate(string msg);
         public event OnProxyCheckUpdate Notify;
+
+        public Proxy()
+        {
+            Reset();
+        }
+
+        public void Reset()
+        {
+            current = 0;
+            GoodProxiesCount = 0;
+            CurrentProxy = 0;
+            List = new List<string>();
+        }
 
         public bool SetProxyFilePath(string path)
         {

@@ -61,12 +61,7 @@ namespace Proxy_Checker
             InitializeComponent();
 
             MessageList = new LinkedList<string>();
-            MessageLimit = 5;
-            AddMessage("Test 1");
-            AddMessage("Test 2");
-            AddMessage("Test 3");
-            AddMessage("Test 4");
-            AddMessage("Test 5");
+            MessageLimit = 3;
 
             Proxy = new Proxy();
             Proxy.Notify += Proxy_Notify;

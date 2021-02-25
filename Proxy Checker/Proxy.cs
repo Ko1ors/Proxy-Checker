@@ -23,6 +23,9 @@ namespace Proxy_Checker
         public delegate void OnProxyCheckUpdate(string msg);
         public event OnProxyCheckUpdate Notify;
 
+        public delegate void OnProxyCheckComplete();
+        public event OnProxyCheckComplete NotifyComplete; 
+
         public Proxy()
         {
             Reset();
@@ -94,7 +97,14 @@ namespace Proxy_Checker
                     }
                 });
                 IsChecking = false;
+                SendMessage();
+                OnComplete();
             }
+        }
+
+        private void OnComplete()
+        {
+            NotifyComplete?.Invoke();
         }
 
         private void SendMessage()

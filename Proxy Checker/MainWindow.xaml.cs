@@ -1,6 +1,7 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Windows;
 
 namespace Proxy_Checker
@@ -18,6 +19,9 @@ namespace Proxy_Checker
 
         public static readonly DependencyProperty PulseButtonProperty = DependencyProperty.Register("PulseButton", typeof(PulseButton), typeof(MainWindow));
         public static readonly DependencyProperty MessageListProperty = DependencyProperty.Register("MessageList", typeof(LinkedList<string>), typeof(MainWindow));
+        public static readonly DependencyProperty SelectPathButtonVisibilityProperty = DependencyProperty.Register("SelectPathButtonVisibility", typeof(bool), typeof(MainWindow));
+        public static readonly DependencyProperty SaveResultsButtonVisibilityProperty = DependencyProperty.Register("SaveResultsButtonVisibility", typeof(bool), typeof(MainWindow));
+
 
         public PulseButton PulseButton
         {
@@ -31,6 +35,18 @@ namespace Proxy_Checker
             set { SetValue(MessageListProperty, value); }
         }
 
+        public bool SelectPathButtonVisibility
+        {
+            get { return (bool)GetValue(SelectPathButtonVisibilityProperty); }
+            set { SetValue(SelectPathButtonVisibilityProperty, value); }
+        }
+
+        public bool SaveResultsButtonVisibility
+        {
+            get { return (bool)GetValue(SaveResultsButtonVisibilityProperty); }
+            set { SetValue(SaveResultsButtonVisibilityProperty, value); }
+        }
+
         public Proxy Proxy { get; set; }
 
         private PulseButtonColor pulseButtonColor { get; set; }
@@ -39,10 +55,13 @@ namespace Proxy_Checker
 
         public MainWindow()
         {
+            SaveResultsButtonVisibility = false;
+            SelectPathButtonVisibility = true;
+
             InitializeComponent();
 
             MessageList = new LinkedList<string>();
-            MessageLimit = 3;
+            MessageLimit = 5;
             AddMessage("Test 1");
             AddMessage("Test 2");
             AddMessage("Test 3");
@@ -51,12 +70,25 @@ namespace Proxy_Checker
 
             Proxy = new Proxy();
             Proxy.Notify += Proxy_Notify;
+            Proxy.NotifyComplete += Proxy_NotifyComplete;
             if (Proxy.SetProxyFilePath(AppDomain.CurrentDomain.BaseDirectory + "proxy.txt"))
                 AddMessage("Proxy file found successfully");
             else
                 AddMessage("Proxy file not found");
 
+
             pulseButtonColor = PulseButtonColor.Green;
+        }
+
+        private void Proxy_NotifyComplete()
+        {
+            Dispatcher.Invoke(() =>
+            {
+                SelectPathButtonVisibility = true;
+                SaveResultsButtonVisibility = true;
+                ChangePulseButton(PulseButtonColor.Green);
+                AddMessage("Checking completed successfully");
+            });
         }
 
         private void Proxy_Notify(string msg)
@@ -86,6 +118,8 @@ namespace Proxy_Checker
                     if (Proxy.Start())
                     {
                         ChangePulseButton(PulseButtonColor.Red);
+                        SelectPathButtonVisibility = false;
+                        SaveResultsButtonVisibility = false;
                         AddMessage("Proxy checker started");
                     }
                     else
@@ -95,8 +129,8 @@ namespace Proxy_Checker
                     AddMessage("Proxy file not setted");
             }
             else
-                ChangePulseButton(PulseButtonColor.Green);
-            (sender as NMT.Wpf.Controls.PulseButton).GetBindingExpression(ContentProperty).UpdateTarget();
+                AddMessage("Proxy checking has already started");
+
         }
 
         private void ChangePulseButton(PulseButtonColor pbc)
@@ -141,6 +175,14 @@ namespace Proxy_Checker
             if (openFileDialog.ShowDialog() == true)
                 if (Proxy.SetProxyFilePath(openFileDialog.FileName))
                     AddMessage("Proxy file setted successfully");
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            var saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "Text|*.txt|All|*.*";
+            if (saveFileDialog.ShowDialog() == true)
+                Proxy.SaveProxy(saveFileDialog.FileName);
         }
     }
 }

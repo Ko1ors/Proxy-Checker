@@ -21,6 +21,10 @@
         </shell:WindowChrome>
     </shell:WindowChrome.WindowChrome>
 
+    <Window.Resources>
+        <local:BoolToVisibilityConverter x:Key="converter"/>
+    </Window.Resources>
+    
     <Border BorderThickness="0">
         <Border.Style>
             <Style TargetType="{x:Type Border}">
@@ -51,7 +55,7 @@
             </DockPanel>
             <Border Grid.Row="1" BorderThickness="2,0,2,2" BorderBrush="#03506f" Background="#0a043c" shell:Grid.RowSpan="2">
                 <StackPanel >
-                    <controls:PulseButton Margin="0,40,0,0" Height="50" Width="50" IsEllipsis="True"   
+                    <controls:PulseButton Margin="0,40,0,30" Height="50" Width="50" IsEllipsis="True"   
                       PulseScale="{Binding Path=PulseButton.Scale, ElementName=mainWindow,  FallbackValue= 2}"
                       PulseWidth="{Binding Path=PulseButton.Width, ElementName=mainWindow, FallbackValue= 3}"
                       PulseSpeed="0:0:5"
@@ -68,11 +72,12 @@
                       ButtonHighlightBrush="#a3ddcb"
                       ButtonPressedBrush="#03506f"
                       Click="PulseButton_Click"/>
-                    
-                    <Button Margin="0,35,0,0" Width="150" Height="20" Content="Select proxy file location" Click="Button_Click" FontFamily="Arial" BorderBrush="#FFA3DDCB" Foreground="#FFFFE3DE" Background="{x:Null}"/>
+
+                    <Button Margin="0,5,0,0"  Width="150" Height="20" Content="Select proxy file location" Click="Button_Click" FontFamily="Arial" BorderBrush="#FFA3DDCB" Foreground="#FFFFE3DE" Visibility="{Binding Path=SelectPathButtonVisibility, ElementName=mainWindow, Converter={StaticResource converter}, Mode=TwoWay}" Background="{x:Null}"/>
+                    <Button Margin="0,5,0,0" Width="150" Height="20" Content="Save results" Click="Button_Click_1" FontFamily="Arial" BorderBrush="#FFA3DDCB" Foreground="#FFFFE3DE" Visibility="{Binding Path=SaveResultsButtonVisibility, ElementName=mainWindow, Converter={StaticResource converter}, FallbackValue=Collapsed, Mode=TwoWay}" Background="{x:Null}"/>
                     <Button Visibility="Collapsed" Margin="0,35,0,0" Width="150" Height="20" Content="Save results" FontFamily="Arial" BorderBrush="#FFA3DDCB" Foreground="#FFFFE3DE" Background="{x:Null}"/>
 
-                    <ItemsControl x:Name="itemsControl" Margin="0,15,0,0" Background="{x:Null}"  ItemsSource="{Binding Path=MessageList,ElementName=mainWindow}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" HorizontalContentAlignment="Stretch" BorderThickness="0" Height="140">
+                    <ItemsControl x:Name="itemsControl" Margin="0,25,0,0" Background="{x:Null}"  ItemsSource="{Binding Path=MessageList,ElementName=mainWindow}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" HorizontalContentAlignment="Stretch" BorderThickness="0">
 
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
